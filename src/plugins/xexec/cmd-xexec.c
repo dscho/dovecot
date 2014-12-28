@@ -49,12 +49,9 @@ struct cmd_xexec_context {
 	unsigned requested_lines;
 };
 
-static void cmd_xexec_client(void *context)
+static void cmd_xexec_client(struct cmd_xexec_context *ctx)
 {
-	struct cmd_xexec_context *ctx;
 	char *line;
-
-	ctx = (struct cmd_xexec_context *)(context);
 
 	i_stream_read(ctx->client->input);
 #if 1
@@ -74,12 +71,9 @@ static void cmd_xexec_client(void *context)
 #endif
 }
 
-static void cmd_xexec_stdout(void *context)
+static void cmd_xexec_stdout(struct cmd_xexec_context *ctx)
 {
-	struct cmd_xexec_context *ctx;
 	char *line;
-
-	ctx = (struct cmd_xexec_context *)(context);
 
 	if (i_stream_read(ctx->out) == -1) {
 		io_remove(&ctx->io_out);
@@ -107,12 +101,9 @@ static void cmd_xexec_stdout(void *context)
 	}
 }
 
-static void cmd_xexec_stderr(void *context)
+static void cmd_xexec_stderr(struct cmd_xexec_context *ctx)
 {
-	struct cmd_xexec_context *ctx;
 	char *line;
-
-	ctx = (struct cmd_xexec_context *)(context);
 
 	if (i_stream_read(ctx->err) == -1) {
 		io_remove(&ctx->io_err);
@@ -132,7 +123,7 @@ bool cmd_xexec(struct client_command_context *cmd)
 	const struct imap_arg * imap_args;
 	const char *imap_command;
 	const char *const *backend_command;
-	ARRAY_DEFINE(command, const char *);
+	ARRAY(const char *) command;
 	pid_t pid;
 	int status;
 	int pipe_in[2];

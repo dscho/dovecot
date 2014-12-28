@@ -5,11 +5,10 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/lib-storage \
 	-I$(top_srcdir)/src/imap
 
-imap_moduledir = $(moduledir)/imap
-
+NOPLUGIN_LDFLAGS =
 lib10_xexec_plugin_la_LDFLAGS = -module -avoid-version
 
-imap_module_LTLIBRARIES = \
+module_LTLIBRARIES = \
 	lib10_xexec_plugin.la
 
 lib10_xexec_plugin_la_SOURCES = \

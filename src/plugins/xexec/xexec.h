@@ -3,18 +3,18 @@
 
 #include "imap-client.h"
 
-struct xexec {
-	union imap_module_context module_ctx;
-
-	pool_t pool;
-	ARRAY_DEFINE(setups, struct xexec_setup *);
-};
-
 struct xexec_setup {
 	struct xexec *xexec;
 
 	const char *imap_command;
 	const char *const *backend_command;
+};
+
+struct xexec {
+	union imap_module_context module_ctx;
+
+	pool_t pool;
+	ARRAY(struct xexec_setup *) setups;
 };
 
 extern struct xexec *xexec_set;
