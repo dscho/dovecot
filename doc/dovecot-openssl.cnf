@@ -22,7 +22,7 @@ prompt = no
 OU=IMAP server
 
 # Common Name (*.example.com is also possible)
-CN=imap.example.com
+CN=127.0.0.1
 
 # E-mail contact
 emailAddress=postmaster@example.com
