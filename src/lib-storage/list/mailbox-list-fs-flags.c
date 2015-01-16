@@ -20,6 +20,11 @@ list_is_maildir_mailbox(struct mailbox_list *list, const char *dir,
 	struct stat st, st2;
 	bool mailbox_files;
 
+	if (*fname == '.') {
+		*flags_r |= MAILBOX_NONEXISTENT;
+		return 0;
+	}
+
 	switch (type) {
 	case MAILBOX_LIST_FILE_TYPE_FILE:
 	case MAILBOX_LIST_FILE_TYPE_OTHER:
@@ -117,6 +122,12 @@ int fs_list_get_mailbox_flags(struct mailbox_list *list,
 	const char *path;
 
 	*flags_r = 0;
+
+	if (*fname == '.') {
+		/* hidden */
+		*flags_r |= MAILBOX_NONEXISTENT;
+		return 0;
+	}
 
 	if (*list->set.maildir_name != '\0') {
 		/* maildir_name is set: the code is common for all
